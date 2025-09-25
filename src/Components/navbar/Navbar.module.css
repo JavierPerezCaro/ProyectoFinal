@@ -1,0 +1,31 @@
+.navbarCustom {
+  background-color: #212529 !important; /* color oscuro */
+}
+
+.brand {
+  color: #f8f9fa !important;
+  font-weight: bold;
+  font-size: 1.25rem;
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: #adb5bd !important; /* gris claro */
+}
+
+.link {
+  color: #f8f9fa !important;
+  margin: 0 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #0d6efd !important; /* azul Bootstrap */
+  text-decoration: underline;
+}
+
+.active {
+  color: #0d6efd !important;
+  font-weight: 500;
+}

@@ -1,0 +1,24 @@
+.footer {
+  background-color: #212529; /* mismo que navbar */
+  color: #f8f9fa;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: auto;
+}
+
+.footer p {
+  margin: 0.25rem 0;
+}
+
+.link {
+  color: #f8f9fa;
+  margin: 0 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #0d6efd; /* igual que navbar */
+  text-decoration: underline;
+}
+
