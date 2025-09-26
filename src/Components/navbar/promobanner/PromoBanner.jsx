@@ -5,7 +5,7 @@ function PromoBanner() {
   return (
     <section className={styles.banner}>
       <p className={styles.text}>
-        🚀 Envío gratis en pedidos superiores a <span>$100</span> 🛒
+        🚀 Envío gratis en pedidos superiores a <span>$30.000</span> 🛒
       </p>
     </section>
   );
