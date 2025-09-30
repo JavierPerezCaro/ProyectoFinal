@@ -1,0 +1,74 @@
+/* src/Pages/contacto/Contacto.module.css */
+
+/* Fondo con gradiente y overlay tipo césped */
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, 
+    #0066cc 0%,      /* Azul futbol */
+    #009933 35%,     /* Verde césped */
+    #ffc107 70%,     /* Amarillo dorado */
+    #dc3545 100%     /* Rojo pasión */
+  );
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,153,51,0.03) 0px,
+    transparent 2px,
+    transparent 4px,
+    rgba(0,153,51,0.03) 6px
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Contenido por encima del fondo */
+.contentBox {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #0d6efd;
+}
+
+.text {
+  font-size: 1.1rem;
+  color: #212529;
+  line-height: 1.5;
+}
+
+.button {
+  margin-top: 1rem;
+  background: linear-gradient(135deg, #0d6efd, #0a58ca);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.button:hover {
+  background: linear-gradient(135deg, #0a58ca, #084298);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(13,110,253,0.4);
+}

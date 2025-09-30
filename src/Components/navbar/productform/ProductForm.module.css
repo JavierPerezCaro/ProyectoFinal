@@ -1,48 +1,68 @@
-.form {
-  max-width: 500px;
+/* src/Components/navbar/productform/ProductForm.module.css */
+.container {
+  max-width: 600px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #0d6efd;
+  font-weight: bold;
+}
+
+.form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-h2 {
-  text-align: center;
-  color: #0d6efd;
+.label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
 }
 
-label {
-  display: flex;
-  flex-direction: column;
-  font-weight: bold;
-}
-
-input, textarea {
-  margin-top: 0.5rem;
-  padding: 0.6rem;
-  border-radius: 6px;
+.input {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
   border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.3s;
 }
 
-textarea {
-  resize: vertical;
+.input:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 8px rgba(13, 110, 253, 0.3);
 }
 
-.button {
-  margin-top: 1rem;
-  background: #0d6efd;
+.buttonPrimary {
+  background: linear-gradient(135deg, #0d6efd, #0a58ca);
   color: white;
   border: none;
-  padding: 0.7rem;
-  border-radius: 6px;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s;
+  margin-top: 1rem;
 }
 
-.button:hover {
-  background: #084298;
+.buttonPrimary:hover {
+  background: linear-gradient(135deg, #0a58ca, #084298);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(13, 110, 253, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    margin: 1rem;
+    padding: 1rem;
+  }
 }

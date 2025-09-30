@@ -1,32 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // 👈 navegación con Link
+import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./Gallery.module.css";
 
-function Gallery() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+function Gallery({ products, setProducts }) {
+  const handleDelete = (id) => {
+    if (window.confirm("¿Seguro que deseas eliminar esta camiseta?")) {
+      setProducts(products.filter((p) => p.id !== id));
+    }
+  };
 
-  // Simulación de API → reemplaza con tu backend real
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products?limit=6")
-      .then((res) => res.json())
-      .then((data) => {
-        const mappedData = data.map((item, index) => ({
-          id: index + 1,
-          name: `Camiseta ${item.title.substring(0, 12)}...`,
-          price: `$${(item.price * 10).toFixed(0)}`,
-          img: `https://source.unsplash.com/300x300/?football,shirt,${index}`,
-        }));
-        setProducts(mappedData);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error cargando productos:", err);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
+  if (!products || products.length === 0) {
     return <p className={styles.loading}>Cargando camisetas...</p>;
   }
 
@@ -34,27 +17,48 @@ function Gallery() {
     <section className={styles.gallery}>
       <div className={styles.header}>
         <h2 className={styles.title}>Nuestra Colección</h2>
-        {/* 🔗 Botón para crear producto */}
-        <Link to="/crear" className={styles.createBtn}>
-          + Agregar producto
+        <Link to="/product/new" className={styles.createBtn}>
+          ➕ Agregar Camiseta
         </Link>
       </div>
 
       <div className={styles.grid}>
-        {products.map((item) => (
-          <div key={item.id} className={styles.card}>
-            <img src={item.img} alt={item.name} className={styles.image} />
-            <h3 className={styles.name}>{item.name}</h3>
-            <p className={styles.price}>{item.price}</p>
-
-            {/* 🔗 Botones de acción */}
+        {products.map((product) => (
+          <div key={product.id} className={styles.card}>
+            {/* Imagen */}
+            <img
+              src={product.img}
+              alt={product.name}
+              className={styles.image}
+            />
+            {/* Nombre */}
+            <h3 className={styles.name}>{product.name}</h3>
+            {/* Descripción */}
+            <p>{product.description}</p>
+            {/* Precio */}
+            <p className={styles.price}>
+              <strong>{product.price}</strong>
+            </p>
+            {/* Botones */}
             <div className={styles.actions}>
-              <Link to={`/item/${item.id}`} className={styles.buttonPrimary}>
-                Ver más
+              <Link
+                to={`/product/${product.id}`}
+                className={styles.buttonPrimary}
+              >
+                Ver
               </Link>
-              <Link to={`/editar/${item.id}`} className={styles.buttonSecondary}>
+              <Link
+                to={`/product/edit/${product.id}`}
+                className={styles.buttonSecondary}
+              >
                 Editar
               </Link>
+              <button
+                onClick={() => handleDelete(product.id)}
+                className={styles.buttonSecondary}
+              >
+                Eliminar
+              </button>
             </div>
           </div>
         ))}
