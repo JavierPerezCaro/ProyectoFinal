@@ -1,11 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Gallery.module.css";
 
 function Gallery({ products, setProducts }) {
+  // 🔄 Cargar siempre desde localStorage para mantener sincronía
+  const loadProducts = () => {
+    const localProducts = JSON.parse(localStorage.getItem("myProducts")) || [];
+
+    // combinamos evitando duplicados
+    const allProducts = [
+      ...products.filter((p) => !localProducts.some((lp) => lp.id === p.id)),
+      ...localProducts,
+    ];
+
+    setProducts(allProducts);
+  };
+
+  useEffect(() => {
+    loadProducts();
+
+    // 👂 Escuchar cambios en localStorage (ej. desde otra pestaña)
+    const handleStorageChange = () => {
+      loadProducts();
+    };
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []); // solo al montar
+
   const handleDelete = (id) => {
     if (window.confirm("¿Seguro que deseas eliminar esta camiseta?")) {
-      setProducts(products.filter((p) => p.id !== id));
+      // 1️⃣ Filtrar del estado (refleja el cambio en la vista)
+      const updated = products.filter((p) => p.id !== id);
+      setProducts(updated);
+
+      // 2️⃣ Filtrar también en localStorage
+      const localProducts = JSON.parse(localStorage.getItem("myProducts")) || [];
+      const filteredLocal = localProducts.filter((p) => p.id !== id);
+      localStorage.setItem("myProducts", JSON.stringify(filteredLocal));
     }
   };
 
@@ -25,21 +57,16 @@ function Gallery({ products, setProducts }) {
       <div className={styles.grid}>
         {products.map((product) => (
           <div key={product.id} className={styles.card}>
-            {/* Imagen */}
             <img
               src={product.img}
               alt={product.name}
               className={styles.image}
             />
-            {/* Nombre */}
             <h3 className={styles.name}>{product.name}</h3>
-            {/* Descripción */}
             <p>{product.description}</p>
-            {/* Precio */}
             <p className={styles.price}>
               <strong>{product.price}</strong>
             </p>
-            {/* Botones */}
             <div className={styles.actions}>
               <Link
                 to={`/product/${product.id}`}

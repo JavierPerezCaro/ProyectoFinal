@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ProductForm.module.css";
 
 function ProductForm() {
-  const { id } = useParams(); // si hay id → edición
+  const { id } = useParams(); // id de la URL
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -15,17 +15,31 @@ function ProductForm() {
 
   useEffect(() => {
     if (id) {
-      // Simulación de fetch para editar
-      fetch(`https://fakestoreapi.com/products/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setForm({
-            name: `Camiseta ${data.title}`,
-            price: (data.price * 10).toFixed(0),
-            description: data.description,
-            img: `https://source.unsplash.com/400x400/?football,shirt,${data.id}`,
-          });
+      // Primero intentamos buscar en localStorage
+      const stored = JSON.parse(localStorage.getItem("myProducts")) || [];
+      const localProduct = stored.find((p) => String(p.id) === id);
+
+      if (localProduct) {
+        // Si está en localStorage → cargamos sus datos
+        setForm({
+          name: localProduct.name,
+          price: localProduct.price,
+          description: localProduct.description,
+          img: localProduct.img,
         });
+      } else {
+        // Si no está en localStorage → buscamos en la API
+        fetch(`https://fakestoreapi.com/products/${id}`)
+          .then((res) => res.json())
+          .then((data) => {
+            setForm({
+              name: `Camiseta ${data.title}`,
+              price: (data.price * 10).toFixed(0),
+              description: data.description,
+              img: `https://source.unsplash.com/400x400/?football,shirt,${data.id}`,
+            });
+          });
+      }
     }
   }, [id]);
 
@@ -37,11 +51,31 @@ function ProductForm() {
     e.preventDefault();
 
     if (id) {
-      // Editar producto (PUT)
-      console.log("Editar producto:", form);
+      // Editar producto
+      const stored = JSON.parse(localStorage.getItem("myProducts")) || [];
+      const index = stored.findIndex((p) => String(p.id) === id);
+
+      if (index !== -1) {
+        // Actualizamos el producto en localStorage
+        stored[index] = { ...stored[index], ...form };
+        localStorage.setItem("myProducts", JSON.stringify(stored));
+        console.log("Producto editado en localStorage:", stored[index]);
+      } else {
+        // Si no estaba en localStorage, asumimos que es un producto de API
+        console.log("Editar producto de API (simulación):", form);
+      }
     } else {
-      // Crear producto (POST)
-      console.log("Nuevo producto:", form);
+      // Crear producto nuevo
+      const newProduct = {
+        ...form,
+        id: Date.now(), // id único
+      };
+
+      const stored = JSON.parse(localStorage.getItem("myProducts")) || [];
+      stored.push(newProduct);
+      localStorage.setItem("myProducts", JSON.stringify(stored));
+
+      console.log("Nuevo producto guardado en localStorage:", newProduct);
     }
 
     navigate("/gallery"); // volver a la galería
@@ -50,7 +84,7 @@ function ProductForm() {
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <h2>{id ? "Editar Producto" : "Nuevo Producto"}</h2>
-      
+
       <label>
         Nombre:
         <input
