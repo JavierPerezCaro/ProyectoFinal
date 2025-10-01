@@ -5,7 +5,7 @@ function Footer() {
   return (
     <footer className={styles.footer}>
       <div className="container">
-        <p className="mb-0">© {new Date().getFullYear()} Mi Sitio Web</p>
+        <p className="mb-0">© {new Date().getFullYear()} GOLES Y CAMISETAS</p>
         <p className="mb-0">
           <a href="/about">Acerca de</a> | <a href="/contacto">Contacto</a>
         </p>

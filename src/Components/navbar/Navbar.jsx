@@ -6,7 +6,7 @@ export default function Navbar() {
     <nav className={`navbar navbar-expand-lg ${styles.navbarCustom}`}>
       <div className="container-fluid">
         <a className={`navbar-brand ${styles.brand}`} href="/">
-          Mi proyecto
+          GOLES Y CAMISETAS
         </a>
         <button
           className="navbar-toggler"
